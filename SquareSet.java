@@ -1,7 +1,7 @@
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.Spliterator;
 
 public class SquareSet implements Set<Square> {
 
@@ -42,16 +42,25 @@ public class SquareSet implements Set<Square> {
 
     @Override
     public boolean addAll(Collection<? extends Square> c) {
-        return false; // STUBBED
+        for (Square s : c) {
+            try {
+                Square newSquare = new Square(s.getFile(), s.getRank());
+            } catch (InvalidSquareException e) {
+                return false;
+            }
+        }
+
+        int tmpIndex = arrIndex;
+        for (Square s : c) {
+            add(s);
+        }
+
+        return tmpIndex != arrIndex;
     }
 
     @Override
     public void clear() {
-        for (int i = 0; i < backingArr.length; i++) {
-            backingArr[i] = null;
-        }
-
-        arrIndex = 0;
+        throw new UnsupportedOperationException("clear()");
     }
 
     @Override
@@ -134,8 +143,7 @@ public class SquareSet implements Set<Square> {
 
     @Override
     public Iterator<Square> iterator() {
-        throw new UnsupportedOperationException("iterator()");
-        // STUBBED, NEED TO CHANGE LATER
+        return new SquareIterator();
     }
 
     @Override
@@ -178,11 +186,6 @@ public class SquareSet implements Set<Square> {
     }
 
     @Override
-    public Spliterator<Square> spliterator() {
-        throw new UnsupportedOperationException("spliterator()");
-    }
-
-    @Override
     public Object[] toArray() {
         Object[] newArr = new Object[arrIndex];
         for (int i = 0; i < newArr.length; i++) {
@@ -194,8 +197,7 @@ public class SquareSet implements Set<Square> {
 
     @Override
     public <T> T[] toArray(T[] a) {
-        throw new UnsupportedOperationException("toArray(T[] a)");
-        // STUBBED, NEED TO CHANGE LATER
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -210,6 +212,34 @@ public class SquareSet implements Set<Square> {
 
         result += "]";
         return result;
+    }
+
+    private class SquareIterator implements Iterator<Square> {
+
+        private int itIndex;
+        private int end;
+
+        public SquareIterator() {
+            this.itIndex = 0;
+            this.end = arrIndex;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return itIndex < end;
+        }
+
+        @Override
+        public Square next() {
+            if (hasNext()) {
+                Square toReturn = backingArr[itIndex];
+                itIndex++;
+                return toReturn;
+            }
+
+            throw new NoSuchElementException("no more elements");
+
+        }
     }
 
 }
