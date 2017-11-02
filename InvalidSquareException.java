@@ -8,7 +8,7 @@
  * to catch any errors by the user rather than it happening at run-time.
  *
  * @author sdesai88
- * @version 10/24/17
+ * @version 11/7/17
 */
 public class InvalidSquareException extends Exception {
 

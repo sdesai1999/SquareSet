@@ -2,7 +2,7 @@
  * Represents a square on an 8x8 chessboard.
  *
  * @author sdesai88
- * @version 10/24/17
+ * @version 11/7/17
 */
 public class Square {
 
@@ -74,12 +74,20 @@ public class Square {
         return false;
     }
 
-    @Override
+
     /**
-     * @return the hashCode of the Square instance using the XOR operator
+     * The hashCode of a Square is determined by its file and rank
+     *
+     * @return the hashCode of the Square instance
     */
+    @Override
     public int hashCode() {
-        return file ^ rank;
+        int result = 29;
+        int fileCode = (int) file;
+        int rankCode = (int) rank;
+        result = 31 * result + fileCode;
+        result = 31 * result + rankCode;
+        return result;
     }
 
     /**

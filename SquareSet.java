@@ -3,19 +3,52 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+/**
+ * Custom implementation of a Set, called a SquareSet. Can only hold Squares
+ * that can be found on a real 8x8 chess board.
+ *
+ * @author sdesai88
+ * @version 11/7/17
+*/
 public class SquareSet implements Set<Square> {
 
     private Square[] backingArr;
     private int arrIndex;
 
+    /**
+     * Creates an instance of a SquareSet, with no elements. Initializes the
+     * backing array to an empty array of length 8, and initializes the starting
+     * index to 0.
+    */
     public SquareSet() {
         backingArr = new Square[8];
         arrIndex = 0;
     }
 
+    /**
+     * Creates an instance of a SquareSet, populating it with the Square
+     * elements in the Collection passed as a parameter. Backing array is
+     * initialized to an empty array of lrngth 8, and the index is initialized
+     * to size 8. However, these change after the elements in the Collection are
+     * added.
+     *
+     * @param c : a Collection of Squares to populate the SquareSet with
+    */
+    public SquareSet(Collection<Square> c) {
+        backingArr = new Square[8];
+        arrIndex = 0;
+        addAll(c);
+    }
+
     @Override
     public boolean add(Square square) {
         if (square == null) {
+            throw new NullPointerException();
+        }
+
+        try {
+            Square newSquare = new Square(square.getFile(), square.getRank());
+        } catch (InvalidSquareException e) {
             return false;
         }
 
@@ -43,6 +76,10 @@ public class SquareSet implements Set<Square> {
     @Override
     public boolean addAll(Collection<? extends Square> c) {
         for (Square s : c) {
+            if (s == null) {
+                throw new NullPointerException();
+            }
+
             try {
                 Square newSquare = new Square(s.getFile(), s.getRank());
             } catch (InvalidSquareException e) {
@@ -132,13 +169,7 @@ public class SquareSet implements Set<Square> {
 
     @Override
     public boolean isEmpty() {
-        for (Square s : backingArr) {
-            if (s != null) {
-                return false;
-            }
-        }
-
-        return true;
+        return size() == 0;
     }
 
     @Override
@@ -189,15 +220,33 @@ public class SquareSet implements Set<Square> {
     public Object[] toArray() {
         Object[] newArr = new Object[arrIndex];
         for (int i = 0; i < newArr.length; i++) {
-            newArr[i] = (Object) backingArr[i];
+            newArr[i] = backingArr[i];
         }
 
         return newArr;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T[] toArray(T[] a) {
-        throw new UnsupportedOperationException();
+        if (arrIndex > a.length) {
+            T[] toReturn = (T[]) new Square[arrIndex];
+            for (int i = 0; i < toReturn.length; i++) {
+                toReturn[i] = (T) backingArr[i];
+            }
+
+            return toReturn;
+        }
+
+        for (int i = 0; i < arrIndex; i++) {
+            a[i] = (T) backingArr[i];
+        }
+
+        if (a.length > arrIndex) {
+            a[arrIndex] = null;
+        }
+
+        return a;
     }
 
     @Override
@@ -217,16 +266,14 @@ public class SquareSet implements Set<Square> {
     private class SquareIterator implements Iterator<Square> {
 
         private int itIndex;
-        private int end;
 
         public SquareIterator() {
-            this.itIndex = 0;
-            this.end = arrIndex;
+            itIndex = 0;
         }
 
         @Override
         public boolean hasNext() {
-            return itIndex < end;
+            return itIndex < arrIndex;
         }
 
         @Override
@@ -237,27 +284,8 @@ public class SquareSet implements Set<Square> {
                 return toReturn;
             }
 
-            throw new NoSuchElementException("no more elements");
-
+            throw new NoSuchElementException("reached end of set");
         }
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
