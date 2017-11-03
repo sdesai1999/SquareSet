@@ -46,12 +46,9 @@ public class SquareSet implements Set<Square> {
             throw new NullPointerException();
         }
 
-        try {
-            Square newSquare = new Square(square.getFile(), square.getRank());
-        } catch (InvalidSquareException e) {
-            return false;
-        }
-
+        // create a new square to check if the one passed in is a valid Square
+        // if not, an exception is thrown from Square constructor
+        Square newSquare = new Square(square.getFile(), square.getRank());
         if (contains(square)) {
             return false;
         }
@@ -80,11 +77,9 @@ public class SquareSet implements Set<Square> {
                 throw new NullPointerException();
             }
 
-            try {
-                Square newSquare = new Square(s.getFile(), s.getRank());
-            } catch (InvalidSquareException e) {
-                return false;
-            }
+            // create a new square to check if the current one is a valid Square
+            // if not, an exception is thrown from Square constructor
+            Square newSquare = new Square(s.getFile(), s.getRank());
         }
 
         int tmpIndex = arrIndex;
@@ -141,11 +136,11 @@ public class SquareSet implements Set<Square> {
             return false;
         }
 
-        if (!(other instanceof SquareSet)) {
+        if (!(other instanceof Set)) {
             return false;
         }
 
-        SquareSet ss = (SquareSet) other;
+        Set ss = (Set) other;
         if (ss.size() != this.size()) {
             return false;
         }

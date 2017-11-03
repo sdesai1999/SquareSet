@@ -3,7 +3,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class Tester {
-    public static void main(String[] args) throws InvalidSquareException {
+    public static void main(String[] args) {
         SquareSet set1 = new SquareSet();
         Iterator<Square> set1It = set1.iterator();
         set1.add(new Square("a2"));

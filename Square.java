@@ -16,7 +16,7 @@ public class Square {
      * @param file : the file (column) of the Square
      * @param rank : the rank (row) of the Square
     */
-    public Square(char file, char rank) throws InvalidSquareException {
+    public Square(char file, char rank) {
         this(new String("" + file + rank));
     }
 
@@ -25,7 +25,7 @@ public class Square {
      *
      * @param name : the full name of the Square (file and rank)
     */
-    public Square(String name) throws InvalidSquareException {
+    public Square(String name) {
         this.name = name;
         if (this.name.length() < 2) {
             throw new InvalidSquareException(name);
