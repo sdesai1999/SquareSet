@@ -262,6 +262,10 @@ public class SquareSet implements Set<Square> {
 
         private int itIndex;
 
+        /**
+         * Creates a SquareIterator which can go through a SquareSet.
+         * Initializes the iterator's index to 0.
+        */
         public SquareIterator() {
             itIndex = 0;
         }

@@ -30,6 +30,7 @@ public class Square {
         if (this.name.length() < 2) {
             throw new InvalidSquareException(name);
         }
+
         this.file = name.charAt(0);
         this.rank = name.charAt(1);
         if (!(this.isValidSquare())) {
@@ -82,11 +83,9 @@ public class Square {
     */
     @Override
     public int hashCode() {
-        int result = 29;
-        int fileCode = (int) file;
-        int rankCode = (int) rank;
-        result = 31 * result + fileCode;
-        result = 31 * result + rankCode;
+        int result = 17;
+        result = 31 * result + (int) file;
+        result = 31 * result + (int) rank;
         return result;
     }
 
