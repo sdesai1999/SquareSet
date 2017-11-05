@@ -35,8 +35,7 @@ public class SquareSet implements Set<Square> {
      * @param c : a Collection of Squares to populate the SquareSet with
     */
     public SquareSet(Collection<Square> c) {
-        backingArr = new Square[8];
-        arrIndex = 0;
+        this();
         addAll(c);
     }
 
