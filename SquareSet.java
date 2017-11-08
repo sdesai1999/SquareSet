@@ -223,6 +223,11 @@ public class SquareSet implements Set<Square> {
     @SuppressWarnings("unchecked")
     @Override
     public <T> T[] toArray(T[] a) {
+        Class aClass = a.getClass();
+        if (!(aClass.isInstance(backingArr))) {
+            throw new ArrayStoreException();
+        }
+
         if (arrIndex > a.length) {
             T[] toReturn = (T[]) new Square[arrIndex];
             for (int i = 0; i < toReturn.length; i++) {

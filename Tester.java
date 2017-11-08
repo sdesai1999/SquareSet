@@ -76,7 +76,12 @@ public class Tester {
         }
         System.out.println();
 
-
+        Object[] newArr = new Square[0];
+        newArr = set2.toArray(newArr);
+        for (Object o : newArr) {
+            System.out.print(o + " ");
+        }
+        System.out.println();
     }
 
     public static void printSet(SquareSet s) {
